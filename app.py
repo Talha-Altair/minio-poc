@@ -3,8 +3,7 @@ from minio.error import S3Error
 
 
 def main():
-    # Create a client with the MinIO server playground, its access key
-    # and secret key.
+    
     client = Minio(
         "localhost:9000", access_key="altair", secret_key="12345678", secure=False   
     )
