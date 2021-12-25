@@ -6,28 +6,34 @@ def main():
     # Create a client with the MinIO server playground, its access key
     # and secret key.
     client = Minio(
-        "play.min.io",
-        access_key="Q3AM3UQ867SPQQA43P2F",
-        secret_key="zuf+tfteSlswRu7BJ86wekitnifILbZam1KYY3TG",
+        "localhost:9000", access_key="altair", secret_key="12345678", secure=False   
     )
 
-    # Make 'asiatrip' bucket if not exist.
-    found = client.bucket_exists("asiatrip")
-    if not found:
-        client.make_bucket("asiatrip")
-    else:
-        print("Bucket 'asiatrip' already exists")
+    all_buckets = client.list_buckets()
 
-    # Upload '/home/user/Photos/asiaphotos.zip' as object name
-    # 'asiaphotos-2015.zip' to bucket 'asiatrip'.
-    client.fput_object(
-        "asiatrip", "asiaphotos-2015.zip", "/home/user/Photos/asiaphotos.zip",
-    )
-    print(
-        "'/home/user/Photos/asiaphotos.zip' is successfully uploaded as "
-        "object 'asiaphotos-2015.zip' to bucket 'asiatrip'."
-    )
+    for bucket in all_buckets:
 
+        print(f"bucket name: {bucket.name}")
+
+        try:
+
+            count = 0
+
+            all_objects = client.list_objects(bucket.name, recursive=True)
+
+            for obj in all_objects:
+                
+                count += 1
+
+                print(count ,obj.object_name)
+
+        except S3Error as err:
+
+            print(err)
+
+    client.fget_object(
+        bucket_name="asiatrip", object_name="asiaphotos-2015.txt", file_path="test.txt"
+    )
 
 if __name__ == "__main__":
     try:
