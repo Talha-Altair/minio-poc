@@ -36,7 +36,5 @@ def main():
     )
 
 if __name__ == "__main__":
-    try:
-        main()
-    except S3Error as exc:
-        print("error occurred.", exc)
+    
+    main()
