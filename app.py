@@ -3,7 +3,7 @@ from minio.error import S3Error
 
 
 def main():
-    
+
     client = Minio(
         "localhost:9000", access_key="altair", secret_key="12345678", secure=False   
     )
@@ -16,7 +16,7 @@ def main():
 
         try:
 
-            count = 0
+            count = 0   
 
             all_objects = client.list_objects(bucket.name, recursive=True)
 
