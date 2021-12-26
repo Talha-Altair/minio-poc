@@ -31,3 +31,5 @@ def main():
 if __name__ == "__main__":
     
     main()
+
+# MINIO_ROOT_USER=talha MINIO_ROOT_PASSWORD=12345678 minio server ./data1 ./data2 ./data3 ./data4 ./data5 --console-address :9001
