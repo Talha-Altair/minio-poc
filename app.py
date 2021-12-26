@@ -30,8 +30,6 @@ def index():
 
     all_images = get_all_images()
 
-
-
     return render_template('index.html', images = all_images)
 
 if __name__ == "__main__":
