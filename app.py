@@ -1,35 +1,39 @@
+from flask import Flask, render_template, request, redirect, url_for, flash, jsonify
 from minio import Minio
-from minio.error import S3Error
 
-
-def main():
-
-    client = Minio(
+MINIO_CLIENT = Minio(
         "localhost:9000", access_key="altair", secret_key="12345678", secure=False   
     )
 
-    all_buckets = client.list_buckets()
+IMAGES_DIR = "images"
 
-    for bucket in all_buckets:
+BUCKET_NAME = "altair"
 
-        print(f"bucket name: {bucket.name}")
+app = Flask(__name__)
 
-        count = 0
+def get_all_images():
 
-        all_objects = client.list_objects(bucket.name, recursive=True)
+    images = []
 
-        for obj in all_objects:
-            
-            count += 1
+    for single_object in MINIO_CLIENT.list_objects(BUCKET_NAME):
 
-            print(count ,obj.object_name)
+        if single_object.name.endswith(".jpg"):
 
-    client.fget_object(
-        bucket_name="asiatrip", object_name="asiaphotos-2015.txt", file_path="test.txt"
-    )
+            images.append(single_object.name)
+
+    return images
+
+@app.route('/', methods = ['GET', 'POST'])
+def index():
+
+    all_images = get_all_images()
+
+    print(all_images)
+
+    
 
 if __name__ == "__main__":
     
-    main()
+    app.run(debug=True)
 
 # MINIO_ROOT_USER=talha MINIO_ROOT_PASSWORD=12345678 minio server ./data1 ./data2 ./data3 ./data4 ./data5 --console-address :9001
