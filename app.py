@@ -14,21 +14,15 @@ def main():
 
         print(f"bucket name: {bucket.name}")
 
-        try:
+        count = 0
 
-            count = 0   
+        all_objects = client.list_objects(bucket.name, recursive=True)
 
-            all_objects = client.list_objects(bucket.name, recursive=True)
+        for obj in all_objects:
+            
+            count += 1
 
-            for obj in all_objects:
-                
-                count += 1
-
-                print(count ,obj.object_name)
-
-        except S3Error as err:
-
-            print(err)
+            print(count ,obj.object_name)
 
     client.fget_object(
         bucket_name="asiatrip", object_name="asiaphotos-2015.txt", file_path="test.txt"
